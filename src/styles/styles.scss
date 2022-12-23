@@ -1,0 +1,140 @@
+@import 'variables';
+
+.rm-tooltip {
+  position: inherit;
+  display: inline-block;
+
+  &__item {
+    $placementArrowOffset: var(--rm-tooltip-placement-arrow-offset);
+
+    position: fixed;
+    pointer-events: none;
+    user-select: none;
+    background-color: var(--rm-tooltip-color-blue);
+    border-radius: var(--rm-tooltip-border-radius);
+    padding: var(--rm-tooltip-padding);
+    color: #fff;
+    font-size: var(--rm-text-size);
+    font-weight: var(--rm-text-weight);
+    // opacity: 0;
+
+    &::before {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: var(--rm-tooltip-color-blue);
+      content: '';
+      border-radius: 2px;
+    }
+
+    &--block {
+      width: 100%;
+    }
+
+    &--focus {
+      pointer-events: all;
+      user-select: auto;
+    }
+
+    &--rounded {
+      border-radius: 40px;
+      padding: var(--rm-tooltip-rounded-padding);
+    }
+
+    &--placement {
+      &-top {
+        &::before {
+          inset: auto auto 0px 50%;
+          transform: translate(-50%, 30%) rotate(45deg);
+        }
+      }
+      &-topStart {
+        &::before {
+          inset: auto auto 0px $placementArrowOffset;
+          transform: translate(0, 30%) rotate(45deg);
+        }
+      }
+      &-topEnd {
+        &::before {
+          inset: auto $placementArrowOffset 0px auto;
+          transform: translate(0, 30%) rotate(45deg);
+        }
+      }
+
+      &-bottom {
+        &::before {
+          inset: 0px auto auto 50%;
+          transform: translate(-50%, -30%) rotate(45deg);
+        }
+      }
+      &-bottomStart {
+        &::before {
+          inset: 0 auto auto $placementArrowOffset;
+          transform: translate(0, -30%) rotate(45deg);
+        }
+      }
+      &-bottomEnd {
+        &::before {
+          inset: 0 $placementArrowOffset auto auto;
+          transform: translate(0, -30%) rotate(45deg);
+        }
+      }
+
+      &-left,
+      &-leftStart,
+      &-leftEnd {
+        &::before {
+          inset: 50% 0 auto auto;
+          transform: translate(30%, -50%) rotate(45deg);
+        }
+      }
+
+      &-right,
+      &-rightStart,
+      &-rightEnd {
+        &::before {
+          inset: 50% auto auto 0;
+          transform: translate(-30%, -50%) rotate(45deg);
+        }
+      }
+    }
+
+    &--offsetSpace {
+      background-color: transparent;
+      position: absolute;
+    }
+
+    &--shadow {
+      box-shadow: var(--rm-tooltip-box-shadow);
+    }
+
+    &--enter {
+      opacity: 0;
+    }
+    &--enter-active {
+      opacity: 1;
+      transition: opacity 0.2s ease-in-out;
+    }
+    &--enter-done {
+      opacity: 1;
+    }
+    &--exit {
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+    }
+  }
+}
+
+@each $name, $colors in $tooltipColor {
+  $bg-color: nth($colors, 1);
+  $text-color: nth($colors, 2);
+
+  #{'.rm-tooltip__item--color-' + $name} {
+    background-color: var($bg-color);
+    color: var($text-color) !important;
+
+    &::before {
+      background-color: var($bg-color);
+    }
+  }
+}
